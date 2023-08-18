@@ -185,3 +185,21 @@ Good Example
 - GUI-based Application Development (with C/C++)
   - GTK3 or GTK4 framework (for Linux)
   - Qt5 framework (Cross-platform)
+
+
+
+//Placeholder (waiting for reconsideration)//
+Pro:
+-Always have recommendation/guide along the book's content
+-Simple and well enough guide for people who wants to approach C language
+
+//started
+-why you should learn C
+-Flexibility of C language
+-Interprete/compiled language and their differences
+//statement(??)
+-continue: use to skip the rest of the code
+-multiple initialisation/increments
+//pointer
+-void pointer
+-incrementing pointer
