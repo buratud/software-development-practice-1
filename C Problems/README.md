@@ -81,7 +81,7 @@ int count_zeros(const char *str)
 ```
 
 ## Problem 4 solution
-This code about to check "Binary is a pattern "10+1""
+This code about to check "Binary is a pattern "10+1"" \
 "10+1" means the binary has 1, 0 and 1 followed by sequence
 
 ```c
