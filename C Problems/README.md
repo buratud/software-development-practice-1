@@ -42,7 +42,18 @@ int main(void)
 
 ## Problem 2 solution
 
-The concept is that to swap first and last......
+// The concept is to swap the first and last element while moving both pointers until they have reached the center
+
+void reverse_array(int *array, int num_elements) {
+    for (int i = 0; i < num_elements / 2; i++) {
+        // This variable is to locate the last element of the array
+        int j = num_elements - i - 1;
+        // keep is a temporary variable, which will contain an element used for the swapping process
+        int keep = *(array + j);
+        *(array + j) = *(array + i);
+        *(array + i) = keep;
+    }
+}
 
 
 ## Problem 3 solution
