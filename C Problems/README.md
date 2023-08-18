@@ -42,6 +42,7 @@ int main(void)
 
 ## Problem 2 solution
 
+```c
 // The concept is to swap the first and last element while moving both pointers until they have reached the center
 
 void reverse_array(int *array, int num_elements) {
@@ -54,7 +55,7 @@ void reverse_array(int *array, int num_elements) {
         *(array + i) = keep;
     }
 }
-
+```
 
 ## Problem 3 solution
 
