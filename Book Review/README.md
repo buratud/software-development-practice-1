@@ -203,3 +203,5 @@ Pro:
 //pointer
 -void pointer
 -incrementing pointer
+
+-stdin stdout
