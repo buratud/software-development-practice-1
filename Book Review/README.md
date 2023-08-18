@@ -3,7 +3,7 @@
 ## Review
 
 Easy to read
-Good Example
+Example with good explanation
 
 ## Topics covered in this book
 
