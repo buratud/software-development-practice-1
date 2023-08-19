@@ -124,7 +124,7 @@ Example with good explanation
     - fprintf(), fscanf()
     - fputc(), fgetc(), fgets(), fputs()
     - fwrite(), fread(), feof(), fseek(), rewind()
-  **- Warning for read or write file that pointer is 0**
+  - **Warning for read or write file that pointer is 0**
   - Other standard C libraries:
     - <stdlib.h> provides functions for various file operations.
     - <unistd.h> (Unix Standard Library) provides functions for low-level file operations.
