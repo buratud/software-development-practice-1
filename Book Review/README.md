@@ -197,6 +197,3 @@
   - GTK3 or GTK4 framework (for Linux)
   - Qt5 framework (Cross-platform)
 
-
-
-- stdin stdout
