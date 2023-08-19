@@ -3,8 +3,10 @@
 ## Review
 
 - Easy to read
-- Full with Example and good explanation
 - Warning that make program safer from crashing
+- Always have recommendation/guide along the book's content
+- Simple and well enough guide for people who wants to approach C language
+- Have summary of type, format and other at the end of the book
 
 ## Topics covered in this book
 
@@ -15,6 +17,9 @@
   - Some recommended / free books for learning C.
   - Source Code Compilation, Cross-Compilation Process.
   - C/C++ Toolchains and Open Source IDEs.
+  - **why you should learn C**
+  - **Flexibility of C language**
+  - **Interprete/compiled language and their differences**
 - Code Comments
   - Single-line comments: // ....
   - Multple-line comments: /* ... */
@@ -98,14 +103,18 @@
   - used to create an alias or a new name for an existing data type.
 - provides a way to define custom names for data types.
   - Statements such as
-  - Iteration Statements/Loops: for, while, do-while
-  - Selection Statements: if, if-else, switch-case
-  - Assignment Statements
+    - Iteration Statements/Loops: for, while, do-while
+      - **Command for Iteration: Break(Use to break out the loop) , Continue (Use to skip the rest of the code)**
+      - **multiple initialisation/increments**
+    - Selection Statements: if, if-else, switch-case
+    - Assignment Statements
 - Functions
   - Variable arguments of a function
 - Pointers
   - Pointer Arithmetics
   - Function Pointers and Parameters
+  - **Void pointer**
+  - **Incrementing pointer**
 - C Preprocessor Directives and Macros
   - #include <...>: include header files.
   - #define
@@ -190,19 +199,4 @@
 
 
 
-- Placeholder (waiting for reconsideration)//
-  - Pro:
-    - Always have recommendation/guide along the book's content
-    - Simple and well enough guide for people who wants to approach C language
-
-- started
-  - why you should learn C
-  - Flexibility of C language
-  - Interprete/compiled language and their differences
-- statement(??)
-  - continue: use to skip the rest of the code
-  - multiple initialisation/increments
-- pointer
-  - void pointer
-  - incrementing pointer
 - stdin stdout
