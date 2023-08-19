@@ -4,7 +4,7 @@
 
 - Easy to read
 - Full with Example and good explanation
-- Warning that make program more safer from crashing
+- Warning that make program safer from crashing
 
 ## Topics covered in this book
 
