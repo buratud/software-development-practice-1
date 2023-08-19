@@ -32,6 +32,7 @@ Example with good explanation
   - 'void' data type
     - a special data type that indicates the absence of a specific type.
     - used to represent a lack of value or to indicate that a function does not return any value.
+  - **Data type Definitions ('typedef')**
 - Type Modifiers for Numbers
   - integers: such as 'signed', 'unsigned', 'short', 'long', 'long long'
   - floating-points: 'long' (for 'float' and 'double')
