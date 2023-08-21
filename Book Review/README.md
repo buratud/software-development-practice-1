@@ -115,6 +115,7 @@
   - Function Pointers and Parameters
   - **Void pointer**
   - **Incrementing pointer**
+  - **The use of pointer**
 - C Preprocessor Directives and Macros
   - #include <...>: include header files.
   - #define
