@@ -1,8 +1,3 @@
-# C Problem
-
-## Problem 1 solution
-
-```c
 #include <stdio.h>
 #include <string.h>
 
@@ -25,13 +20,3 @@ int main(void) {
     printf( "strlen(data) = %lu bytes\n", strlen(data) );
     return 0;
 }
-```
-
-## Problem 2 solution
-
-The concept is that to swap first and last......
-
-
-## Problem 3 solution
-
-## Problem 4 solution
