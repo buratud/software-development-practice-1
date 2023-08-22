@@ -90,8 +90,10 @@
   - accessible by a (char *) pointer.
 - Array: 1D and 2D
   - a collection of elements of the same data type, stored in contiguous memory locations.
+  - Array as a pointer
 - Structs (short for structures)
   - a composite data type that allows you to group together variables of different data types under a single name.
+  - struct is passed by value
 - Union
   - a user-defined data type that all members of a union share the same memory location.
 - Bit-field
@@ -110,6 +112,7 @@
     - Assignment Statements
 - Functions
   - Variable arguments of a function
+  - **Function declaration**
 - Pointers
   - Pointer Arithmetics
   - Function Pointers and Parameters
@@ -121,11 +124,14 @@
   - #define
   - #if, #else, #ifdef, #ifndef, #endif, #undef
   - #error
+- **Project structure**
+  - **Making header**
 - Command-line arguments to the main() function
   - provided by the user when they run the program and can be used to pass information or parameters to the program.
   - int main(int argc, char *argv[]) { ... }
 - The C Standard I/O library
   - printf() and scanf() functions.
+  - **sscanf() with fgets() to prevent overflow**
   - fprintf() functions and the output streams ('stdout' and 'stderr').
   - Formatted strings for Input/Output
 - Files and I/O streams
