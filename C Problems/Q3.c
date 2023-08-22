@@ -5,20 +5,24 @@
 //-----------------------------------------------------------
 int count_zeros(const char *str)
 {
+    // This will get the size of the string
     int size = strlen(str);
+    // This is basically a variable to keep the total number of zeros
     int zCount = 0;
+    // Iterate through every single character in the string
     for (int i = 0; i < size; i++)
     {
-        if(*(str + i) != '0' && *(str + i) != '1'){
-            return -1;
-        }
+        // If the character is a zero, increment the counter
         if (*(str + i) == '0')
         {
             zCount++;
         }
+        // Otherwise, if the character is not a zero, immediately return -1
+        else if(*(str + i) != '1'){
+            return -1;
+        }
     }
     return zCount;
-    
 }
 
 int main(void)
