@@ -97,7 +97,7 @@ void loop() {
       Serial.println("db,Long Press");
       preventReset = true;
     }
-    else if (!doubleClickState) {
+    else if (!preventReset) {
       //If button is not press for 0.5 second after last click
       Serial.println("db,Click");
     }
