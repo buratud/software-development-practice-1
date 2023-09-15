@@ -29,7 +29,7 @@ void setup() {
   pinMode(LED_R_PIN, OUTPUT);
   pinMode(LED_G_PIN, OUTPUT);
   pinMode(LED_B_PIN, OUTPUT);
-  pinMode(INPUT_DIGITAL, INPUT_PULLUP);
+  pinMode(INPUT_DIGITAL, INPUT);
   pinMode(INPUT_ANALOG, INPUT);
   digitalWrite(LED_R_PIN, HIGH);
   digitalWrite(LED_G_PIN, HIGH);
@@ -138,9 +138,9 @@ void handleBlink() {
 }
 
 void handlePwm() {
-  int pin = Serial.readStringUntil(',');
-  int value = Serial.readStringUntil('\n');
+  int pin = Serial.readStringUntil(',').toInt();
+  String value = Serial.readStringUntil('\n');
   Serial.println("PWM Value : " + value);
-  value = constrain(value, 0, 255);
-  analogWrite(pin, value);
+  //value = constrain(value, 0, 255);
+  //analogWrite(pin, value);
 }
