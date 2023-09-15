@@ -19,9 +19,9 @@ unsigned long long previousMilli = 0;
 //unsigned long previousMillis[] = { 0, 0, 0 };  // Array to store previous times for blinking
 String mode = "";
 int prevButtonState, currentButtonState;
-int clickTime = 500;      // Countdown before it count as a long press in millisec
-bool pressState = false;  // Keep Pressing State (True when press ; False when release)
-bool preventReset = false;    // Prevent to change label to click when release button
+int clickTime = 500;        // Countdown before it count as a long press in millisec
+bool pressState = false;    // Keep Pressing State (True when press ; False when release)
+bool preventReset = false;  // Prevent to change label to click when release button
 unsigned int currentPwm, prevPwm, prevClick;
 
 void setup() {
@@ -77,7 +77,7 @@ void loop() {
   if (currentButtonState != prevButtonState) {
     if (currentButtonState == LOW) {
       preventReset = false;
-      if(millis() - prevClick < clickTime){
+      if (millis() - prevClick < clickTime) {
         preventReset = true;
         //Click after first click less than 0.5 sec
         Serial.println("db,Double Click");
@@ -92,12 +92,11 @@ void loop() {
     }
   }
   if (millis() - prevClick >= clickTime) {
-    if(pressState){
+    if (pressState) {
       //If button is press more than 0.5 second
       Serial.println("db,Long Press");
       preventReset = true;
-    }
-    else if (!preventReset) {
+    } else if (!preventReset) {
       //If button is not press for 0.5 second after last click
       Serial.println("db,Click");
       preventReset = true;
@@ -144,7 +143,9 @@ void handlePwm() {
   Serial.println("PWM Value : " + value);
   for (int i = 0; i < value.length(); i++) {
     char digitChar = value.charAt(i);
-    newValue += digitChar;
+    if (isDigit(digitChar)) {
+      newValue += digitChar;
+    }
   }
   int intValue = newValue.toInt();
   analogWrite(pin, intValue);
