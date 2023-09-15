@@ -49,6 +49,7 @@ void loop() {
   // put your main code here, to run repeatedly:
   if (Serial.available()) {
     mode = Serial.readStringUntil(',');
+    Serial.println("Mode : " + mode);
     if (mode.compareTo("turn") == 0) {
       handleTurn();
     } else if (mode.compareTo("blink") == 0) {
@@ -112,6 +113,7 @@ void loop() {
 void handleTurn() {
   int pin = Serial.readStringUntil(',').toInt();
   String mode = Serial.readStringUntil('\n');
+  Serial.println("Turn : " + mode);
   if (mode.compareTo("on") == 0) {
     digitalWrite(pin, LOW);
   } else if (mode.compareTo("off") == 0) {
@@ -122,6 +124,7 @@ void handleTurn() {
 void handleBlink() {
   int pin = Serial.readStringUntil(',').toInt();
   String mode = Serial.readStringUntil('\n');
+  Serial.println("Blink : " + mode);
   if (mode.compareTo("off") == 0) {
     blinkSpeed = 0;
     digitalWrite(LED_R_PIN, HIGH);
@@ -136,6 +139,7 @@ void handleBlink() {
 void handlePwm() {
   int pin = Serial.readStringUntil(',').toInt();
   int value = Serial.readStringUntil('\n').toInt();
+  Serial.println("PWM Value : " + value);
   value = constrain(value, 0, 255);
   analogWrite(pin, value);
 }
