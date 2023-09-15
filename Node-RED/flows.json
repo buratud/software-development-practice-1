@@ -1,0 +1,383 @@
+[
+    {
+        "id": "becf57a49c517d2e",
+        "type": "tab",
+        "label": "Flow 1",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "34925d0205f71097",
+        "type": "serial out",
+        "z": "becf57a49c517d2e",
+        "name": "",
+        "serial": "2b1d54231855dc33",
+        "x": 670,
+        "y": 320,
+        "wires": []
+    },
+    {
+        "id": "6b71087f3b966fc3",
+        "type": "serial in",
+        "z": "becf57a49c517d2e",
+        "name": "",
+        "serial": "2b1d54231855dc33",
+        "x": 250,
+        "y": 80,
+        "wires": [
+            [
+                "8139fd2931e7ee22"
+            ]
+        ]
+    },
+    {
+        "id": "7380a118385e96c7",
+        "type": "ui_button",
+        "z": "becf57a49c517d2e",
+        "name": "",
+        "group": "4cd9482aba53f898",
+        "order": 3,
+        "width": 0,
+        "height": 0,
+        "passthru": false,
+        "label": "Blink Fast",
+        "tooltip": "",
+        "color": "",
+        "bgcolor": "",
+        "className": "",
+        "icon": "",
+        "payload": "blink,3,fast",
+        "payloadType": "str",
+        "topic": "topic",
+        "topicType": "msg",
+        "x": 200,
+        "y": 320,
+        "wires": [
+            [
+                "63ea2bf8406ba289"
+            ]
+        ]
+    },
+    {
+        "id": "b15d13f775b5c470",
+        "type": "function",
+        "z": "becf57a49c517d2e",
+        "name": "function 1",
+        "func": "var mode = context.get(\"mode\")||0;\nmode = mode === 0 ? 1 : 0;\ncontext.set(\"mode\", mode)\nconst modeStr = mode === 0 ? \"off\" : \"on\";\nmsg.payload = `turn,3,${modeStr}`\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 380,
+        "y": 220,
+        "wires": [
+            [
+                "34925d0205f71097"
+            ]
+        ]
+    },
+    {
+        "id": "63ea2bf8406ba289",
+        "type": "function",
+        "z": "becf57a49c517d2e",
+        "name": "function 2",
+        "func": "\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 380,
+        "y": 280,
+        "wires": [
+            [
+                "34925d0205f71097"
+            ]
+        ]
+    },
+    {
+        "id": "55413a3beed15fab",
+        "type": "function",
+        "z": "becf57a49c517d2e",
+        "name": "function 3",
+        "func": "msg.payload = `pwm,3,${msg.payload}`\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 380,
+        "y": 420,
+        "wires": [
+            [
+                "34925d0205f71097"
+            ]
+        ]
+    },
+    {
+        "id": "96191e16b845d950",
+        "type": "ui_text",
+        "z": "becf57a49c517d2e",
+        "group": "f9953abdd780cd1e",
+        "order": 1,
+        "width": 0,
+        "height": 0,
+        "name": "",
+        "label": "Switch",
+        "format": "{{msg.payload}}",
+        "layout": "row-spread",
+        "className": "",
+        "style": false,
+        "font": "",
+        "fontSize": 16,
+        "color": "#000000",
+        "x": 830,
+        "y": 40,
+        "wires": []
+    },
+    {
+        "id": "8139fd2931e7ee22",
+        "type": "function",
+        "z": "becf57a49c517d2e",
+        "name": "function 4",
+        "func": "msg.payload = msg.payload.trim()\nconst [mode, val] = msg.payload.split(\",\");\nmsg.mode = mode;\nmsg.payload = val;\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 420,
+        "y": 80,
+        "wires": [
+            [
+                "270ce5c0f2afa20d"
+            ]
+        ]
+    },
+    {
+        "id": "79dc9d67fed83818",
+        "type": "ui_text",
+        "z": "becf57a49c517d2e",
+        "group": "f9953abdd780cd1e",
+        "order": 2,
+        "width": 0,
+        "height": 0,
+        "name": "",
+        "label": "Analog value",
+        "format": "{{msg.payload}}",
+        "layout": "row-spread",
+        "className": "",
+        "style": false,
+        "font": "",
+        "fontSize": 16,
+        "color": "#000000",
+        "x": 850,
+        "y": 120,
+        "wires": []
+    },
+    {
+        "id": "270ce5c0f2afa20d",
+        "type": "switch",
+        "z": "becf57a49c517d2e",
+        "name": "",
+        "property": "mode",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "db",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "an",
+                "vt": "str"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 2,
+        "x": 590,
+        "y": 80,
+        "wires": [
+            [
+                "96191e16b845d950"
+            ],
+            [
+                "79dc9d67fed83818"
+            ]
+        ]
+    },
+    {
+        "id": "42e837ea5a88e076",
+        "type": "ui_slider",
+        "z": "becf57a49c517d2e",
+        "name": "",
+        "label": "PWM",
+        "tooltip": "",
+        "group": "4cd9482aba53f898",
+        "order": 5,
+        "width": 0,
+        "height": 0,
+        "passthru": false,
+        "outs": "all",
+        "topic": "topic",
+        "topicType": "msg",
+        "min": 0,
+        "max": "255",
+        "step": 1,
+        "className": "",
+        "x": 230,
+        "y": 420,
+        "wires": [
+            [
+                "55413a3beed15fab"
+            ]
+        ]
+    },
+    {
+        "id": "dc73b213906d6ec8",
+        "type": "ui_button",
+        "z": "becf57a49c517d2e",
+        "name": "",
+        "group": "4cd9482aba53f898",
+        "order": 4,
+        "width": 0,
+        "height": 0,
+        "passthru": false,
+        "label": "Blink Slow",
+        "tooltip": "",
+        "color": "",
+        "bgcolor": "",
+        "className": "",
+        "icon": "",
+        "payload": "blink,3,slow",
+        "payloadType": "str",
+        "topic": "topic",
+        "topicType": "msg",
+        "x": 210,
+        "y": 360,
+        "wires": [
+            [
+                "63ea2bf8406ba289"
+            ]
+        ]
+    },
+    {
+        "id": "75f107b42c60afda",
+        "type": "ui_switch",
+        "z": "becf57a49c517d2e",
+        "name": "",
+        "label": "LED",
+        "tooltip": "",
+        "group": "4cd9482aba53f898",
+        "order": 1,
+        "width": 0,
+        "height": 0,
+        "passthru": true,
+        "decouple": "false",
+        "topic": "topic",
+        "topicType": "msg",
+        "style": "",
+        "onvalue": "true",
+        "onvalueType": "bool",
+        "onicon": "",
+        "oncolor": "",
+        "offvalue": "false",
+        "offvalueType": "bool",
+        "officon": "",
+        "offcolor": "",
+        "animate": false,
+        "className": "",
+        "x": 230,
+        "y": 220,
+        "wires": [
+            [
+                "b15d13f775b5c470"
+            ]
+        ]
+    },
+    {
+        "id": "8003e0e3e3662f61",
+        "type": "ui_button",
+        "z": "becf57a49c517d2e",
+        "name": "",
+        "group": "4cd9482aba53f898",
+        "order": 2,
+        "width": 0,
+        "height": 0,
+        "passthru": false,
+        "label": "Blink Off",
+        "tooltip": "",
+        "color": "",
+        "bgcolor": "",
+        "className": "",
+        "icon": "",
+        "payload": "blink,3,off",
+        "payloadType": "str",
+        "topic": "topic",
+        "topicType": "msg",
+        "x": 200,
+        "y": 280,
+        "wires": [
+            [
+                "63ea2bf8406ba289"
+            ]
+        ]
+    },
+    {
+        "id": "2b1d54231855dc33",
+        "type": "serial-port",
+        "serialport": "COM4",
+        "serialbaud": "115200",
+        "databits": "8",
+        "parity": "none",
+        "stopbits": "1",
+        "waitfor": "",
+        "dtr": "none",
+        "rts": "none",
+        "cts": "none",
+        "dsr": "none",
+        "newline": "\\n",
+        "bin": "false",
+        "out": "char",
+        "addchar": "",
+        "responsetimeout": "10000"
+    },
+    {
+        "id": "4cd9482aba53f898",
+        "type": "ui_group",
+        "name": "LED gaming",
+        "tab": "486ef5e14d09b0e9",
+        "order": 1,
+        "disp": true,
+        "width": 6,
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "f9953abdd780cd1e",
+        "type": "ui_group",
+        "name": "Gaming status",
+        "tab": "486ef5e14d09b0e9",
+        "order": 2,
+        "disp": true,
+        "width": "6",
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "486ef5e14d09b0e9",
+        "type": "ui_tab",
+        "name": "Home",
+        "icon": "dashboard",
+        "disabled": false,
+        "hidden": false
+    }
+]
