@@ -140,7 +140,12 @@ void handleBlink() {
 void handlePwm() {
   int pin = Serial.readStringUntil(',').toInt();
   String value = Serial.readStringUntil('\n');
+  String newValue = "";
   Serial.println("PWM Value : " + value);
-  //value = constrain(value, 0, 255);
-  //analogWrite(pin, value);
+  for (int i = 0; i < inputString.length(); i++) {
+    char digitChar = inputString.charAt(i);
+    newValue += digitChar;
+  }
+  int intValue = newValue.toInt();
+  analogWrite(pin, value);
 }
