@@ -142,10 +142,10 @@ void handlePwm() {
   String value = Serial.readStringUntil('\n');
   String newValue = "";
   Serial.println("PWM Value : " + value);
-  for (int i = 0; i < inputString.length(); i++) {
-    char digitChar = inputString.charAt(i);
+  for (int i = 0; i < value.length(); i++) {
+    char digitChar = value.charAt(i);
     newValue += digitChar;
   }
   int intValue = newValue.toInt();
-  analogWrite(pin, value);
+  analogWrite(pin, intValue);
 }
