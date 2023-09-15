@@ -1,8 +1,8 @@
-#define LED_R_PIN 32
-#define LED_G_PIN 33
-#define LED_B_PIN 25
-#define INPUT_DIGITAL 34
-#define INPUT_ANALOG 35
+#define LED_R_PIN D1
+#define LED_G_PIN D2
+#define LED_B_PIN D5
+#define INPUT_DIGITAL D6
+#define INPUT_ANALOG A0
 
 #define FAST_SPEED 100
 #define SLOW_SPEED 1000
