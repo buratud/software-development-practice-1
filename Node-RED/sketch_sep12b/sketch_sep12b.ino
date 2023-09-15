@@ -100,6 +100,7 @@ void loop() {
     else if (!preventReset) {
       //If button is not press for 0.5 second after last click
       Serial.println("db,Click");
+      preventReset = true;
     }
   }
   if (currentPwm != prevPwm) {
@@ -137,8 +138,8 @@ void handleBlink() {
 }
 
 void handlePwm() {
-  int pin = Serial.readStringUntil(',').toInt();
-  int value = Serial.readStringUntil('\n').toInt();
+  int pin = Serial.readStringUntil(',');
+  int value = Serial.readStringUntil('\n');
   Serial.println("PWM Value : " + value);
   value = constrain(value, 0, 255);
   analogWrite(pin, value);
