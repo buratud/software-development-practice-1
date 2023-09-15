@@ -21,7 +21,7 @@ String mode = "";
 int prevButtonState, currentButtonState;
 int clickTime = 500;      // Countdown before it count as a long press in millisec
 bool pressState = false;  // Keep Pressing State (True when press ; False when release)
-bool doubleClickState = false;    // Keep Double Click State to prevent auto reset (True when press ; False when release)
+bool preventReset = false;    // Prevent to change label to click when release button
 unsigned int currentPwm, prevPwm, prevClick;
 
 void setup() {
@@ -75,9 +75,9 @@ void loop() {
   currentPwm = analogRead(INPUT_ANALOG);
   if (currentButtonState != prevButtonState) {
     if (currentButtonState == LOW) {
-      doubleClickState = false;
+      preventReset = false;
       if(millis() - prevClick < clickTime){
-        doubleClickState = true;
+        preventReset = true;
         //Click after first click less than 0.5 sec
         Serial.println("db,Double Click");
       }
@@ -94,6 +94,7 @@ void loop() {
     if(pressState){
       //If button is press more than 0.5 second
       Serial.println("db,Long Press");
+      preventReset = true;
     }
     else if (!doubleClickState) {
       //If button is not press for 0.5 second after last click
