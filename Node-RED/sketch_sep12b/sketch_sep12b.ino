@@ -23,7 +23,7 @@ String mode = "";
 int prevButtonState, currentButtonState;
 int clickTime = 500;        // Countdown before it count as a long press in millisec
 //bool pressState = false;    // Keep Pressing State (True when press ; False when release)
-bool preventReset = false;  // Prevent to change label to click when release button
+bool preventReset = true;  // Prevent to change label to click when release button
 bool blinkState = false;    // Keep Blinking State
 unsigned int currentPwm, prevPwm;     // Keep value from analog input to send data to Node-red
 
@@ -100,7 +100,7 @@ void loop() {
     }
   }
   if (millis() - prevClick >= clickTime) {
-    if (currentButtonState == LOW) {
+    if (currentButtonState == LOW && !preventReset) {
       //If button is press more than 0.5 second
       Serial.println("db,Long Press");
       preventReset = true;
@@ -156,11 +156,11 @@ void handleBlink() {
 
 void handlePwm() {
   String strPIN = Serial.readStringUntil(',');
-  String strValue = Serial.readStringUntil(',');
+  String strValue = Serial.readStringUntil('\n');
   int pin =isInteger(strPIN) ? strPIN.toInt() : 0;
   int value =isInteger(strValue) ? strValue.toInt() : 0;
   for (int i = 0; i < numLEDs; i++) {
-    analogWrite(ledPins[i], (int)(value * colorValue[i] / 255));    // Set color and brightness
+    analogWrite(ledPins[i], (int)(value));    // Set color and brightness
   }
 }
 
@@ -169,11 +169,14 @@ void handleLED() {
   int r = isInteger(value) ? value.toInt() : 0;
   value = Serial.readStringUntil(',');
   int g = isInteger(value) ? value.toInt() : 0;
-  value = Serial.readStringUntil(',');
+  value = Serial.readStringUntil('\n');
   int b = isInteger(value) ? value.toInt() : 0;
   colorValue[0] = r;
   colorValue[1] = g;
   colorValue[2] = b;
+  for (int i = 0; i < numLEDs; i++) {
+    analogWrite(ledPins[i], (int)(255-colorValue[i]));    // Set color and brightness
+  }
 }
 
 boolean isInteger(String s){
