@@ -10,10 +10,11 @@
 void handleTurn();
 void handleBlink();
 void handlePwm();
+void handlLED();
 
 int numLEDs = 3;
 int ledPins[] = { LED_R_PIN, LED_G_PIN, LED_B_PIN };  // Array to store LED pins
-int colorValue[] = { 0, 0, 0 };                       // Contain {Red,Green,Blue} value for coloring led
+int colorValue[] = { 255, 255, 255 };                       // Contain {Red,Green,Blue} value for coloring led
 //int blinkSpeeds[] = { 0, 0, 0 };               // Array to store blinking speeds (in milliseconds)
 int blinkSpeed = 0;                                   // Time between blink (in millisecond)
 unsigned long long previousMilli = 0, prevClick = 0;  // Time from last point for blinking and clicking
@@ -21,7 +22,7 @@ unsigned long long previousMilli = 0, prevClick = 0;  // Time from last point fo
 String mode = "";
 int prevButtonState, currentButtonState;
 int clickTime = 500;        // Countdown before it count as a long press in millisec
-bool pressState = false;    // Keep Pressing State (True when press ; False when release)
+//bool pressState = false;    // Keep Pressing State (True when press ; False when release)
 bool preventReset = false;  // Prevent to change label to click when release button
 bool blinkState = false;    // Keep Blinking State
 unsigned int currentPwm, prevPwm;     // Keep value from analog input to send data to Node-red
@@ -74,6 +75,7 @@ void loop() {
           previousMilli = millis();
           analogWrite(pin, blinkState ? 255 : 255-colorValue[i]);
         }
+        blinkState = !blinkState;
       }
     }
   }
@@ -88,9 +90,9 @@ void loop() {
         Serial.println("db,Double Click");
       }
       prevClick = millis();
-      pressState = true;
+      //pressState = true;
     } else {
-      pressState = false;
+      //pressState = false;
       if (millis() - prevClick < clickTime) {
         // Keep time when release button
         prevClick = millis();
@@ -98,7 +100,7 @@ void loop() {
     }
   }
   if (millis() - prevClick >= clickTime) {
-    if (pressState) {
+    if (currentButtonState == LOW) {
       //If button is press more than 0.5 second
       Serial.println("db,Long Press");
       preventReset = true;
@@ -108,7 +110,7 @@ void loop() {
       preventReset = true;
     }
   }
-  if (currentPwm-prevPwm >= 5) {
+  if (currentPwm-prevPwm > 5) {
     // Send value to Node-red when analog value change more than or equal to 5
     String message = "an," + String(currentPwm);
     Serial.println(message.c_str());
