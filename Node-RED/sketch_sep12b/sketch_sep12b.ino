@@ -14,18 +14,18 @@ void handlLED();
 
 int numLEDs = 3;
 int ledPins[] = { LED_R_PIN, LED_G_PIN, LED_B_PIN };  // Array to store LED pins
-int colorValue[] = { 255, 255, 255 };                       // Contain {Red,Green,Blue} value for coloring led
+int colorValue[] = { 255, 255, 255 };                 // Contain {Red,Green,Blue} value for coloring led
 //int blinkSpeeds[] = { 0, 0, 0 };               // Array to store blinking speeds (in milliseconds)
 int blinkSpeed = 0;                                   // Time between blink (in millisecond)
 unsigned long long previousMilli = 0, prevClick = 0;  // Time from last point for blinking and clicking
 //unsigned long previousMillis[] = { 0, 0, 0 };  // Array to store previous times for blinking
 String mode = "";
 int prevButtonState, currentButtonState;
-int clickTime = 500;        // Countdown before it count as a long press in millisec
+int clickTime = 500;  // Countdown before it count as a long press in millisec
 //bool pressState = false;    // Keep Pressing State (True when press ; False when release)
 bool preventReset = true;  // Prevent to change label to click when release button
-bool blinkState = false;    // Keep Blinking State
-unsigned int currentPwm, prevPwm;     // Keep value from analog input to send data to Node-red
+bool blinkState = false;   // Keep Blinking State
+int currentPwm, prevPwm;   // Keep value from analog input to send data to Node-red
 
 void setup() {
   Serial.begin(115200);
@@ -73,7 +73,7 @@ void loop() {
         for (int i = 0; i < numLEDs; i++) {
           int pin = ledPins[i];
           previousMilli = millis();
-          analogWrite(pin, blinkState ? 255 : 255-colorValue[i]);
+          analogWrite(pin, blinkState ? 255 : 255 - colorValue[i]);
         }
         blinkState = !blinkState;
       }
@@ -110,36 +110,36 @@ void loop() {
       preventReset = true;
     }
   }
-  if (currentPwm-prevPwm > 5) {
+  if (abs(currentPwm - prevPwm) > 200) {
     // Send value to Node-red when analog value change more than or equal to 5
     String message = "an," + String(currentPwm);
     Serial.println(message.c_str());
+    prevPwm = currentPwm;
   }
   prevButtonState = currentButtonState;
-  prevPwm = currentPwm;
 }
 
 void handleTurn() {
   String strPIN = Serial.readStringUntil(',');
-  int pin =isInteger(strPIN) ? strPIN.toInt() : 0;
+  int pin = isInteger(strPIN) ? strPIN.toInt() : 0;
   String mode = Serial.readStringUntil('\n');
   Serial.println("Turn : " + mode);
   if (mode.compareTo("on") == 0) {
     //    digitalWrite(pin, LOW);
     for (int i = 0; i < numLEDs; i++) {
-      analogWrite(ledPins[i], 255 - colorValue[i]); // Set light on base on color
+      analogWrite(ledPins[i], 255 - colorValue[i]);  // Set light on base on color
     }
   } else if (mode.compareTo("off") == 0) {
     //    digitalWrite(pin, HIGH);
     for (int i = 0; i < numLEDs; i++) {
-      analogWrite(ledPins[i], 255);                 // Set light off for all color
+      analogWrite(ledPins[i], 255);  // Set light off for all color
     }
   }
 }
 
 void handleBlink() {
   String strPIN = Serial.readStringUntil(',');
-  int pin =isInteger(strPIN) ? strPIN.toInt() : 0;
+  int pin = isInteger(strPIN) ? strPIN.toInt() : 0;
   String mode = Serial.readStringUntil('\n');
   //Serial.println("Blink : " + mode);
   blinkSpeed = false;
@@ -157,10 +157,10 @@ void handleBlink() {
 void handlePwm() {
   String strPIN = Serial.readStringUntil(',');
   String strValue = Serial.readStringUntil('\n');
-  int pin =isInteger(strPIN) ? strPIN.toInt() : 0;
-  int value =isInteger(strValue) ? strValue.toInt() : 0;
+  int pin = isInteger(strPIN) ? strPIN.toInt() : 0;
+  int value = isInteger(strValue) ? strValue.toInt() : 0;
   for (int i = 0; i < numLEDs; i++) {
-    analogWrite(ledPins[i], (int)(value));    // Set color and brightness
+    analogWrite(ledPins[i], (int)(value));  // Set color and brightness
   }
 }
 
@@ -175,11 +175,11 @@ void handleLED() {
   colorValue[1] = g;
   colorValue[2] = b;
   for (int i = 0; i < numLEDs; i++) {
-    analogWrite(ledPins[i], (int)(255-colorValue[i]));    // Set color and brightness
+    analogWrite(ledPins[i], (int)(255 - colorValue[i]));  // Set color and brightness
   }
 }
 
-boolean isInteger(String s){
+boolean isInteger(String s) {
   for (int i = 0; i < s.length(); i++) {
     char currentChar = s.charAt(i);
     if (!isdigit(currentChar)) {
