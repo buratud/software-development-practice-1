@@ -1,31 +1,691 @@
 [
     {
-        "id": "8003e0e3e3662f61",
+        "id": "becf57a49c517d2e",
+        "type": "tab",
+        "label": "Flow 1",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "34925d0205f71097",
+        "type": "serial out",
+        "z": "becf57a49c517d2e",
+        "name": "Receiver",
+        "serial": "2b1d54231855dc33",
+        "x": 1140,
+        "y": 380,
+        "wires": []
+    },
+    {
+        "id": "6b71087f3b966fc3",
+        "type": "serial in",
+        "z": "becf57a49c517d2e",
+        "name": "Sender",
+        "serial": "2b1d54231855dc33",
+        "x": 670,
+        "y": 140,
+        "wires": [
+            [
+                "8139fd2931e7ee22"
+            ]
+        ]
+    },
+    {
+        "id": "7380a118385e96c7",
         "type": "ui_button",
         "z": "becf57a49c517d2e",
         "name": "",
         "group": "4cd9482aba53f898",
         "order": 2,
-        "width": 0,
-        "height": 0,
+        "width": 3,
+        "height": 1,
         "passthru": false,
-        "label": "Blink Off",
+        "label": "{{label}}",
         "tooltip": "",
         "color": "",
-        "bgcolor": "",
+        "bgcolor": "{{color}}",
         "className": "",
         "icon": "",
-        "payload": "blink,32,off",
+        "payload": "fast",
         "payloadType": "str",
         "topic": "topic",
         "topicType": "msg",
-        "x": 200,
-        "y": 280,
+        "x": 670,
+        "y": 340,
         "wires": [
             [
                 "63ea2bf8406ba289"
             ]
         ]
+    },
+    {
+        "id": "b15d13f775b5c470",
+        "type": "function",
+        "z": "becf57a49c517d2e",
+        "name": "LED",
+        "func": "//let mode = context.get(\"mode\")||0;\nlet pin = context.get(\"pin\")||5\n//mode = mode === 0 ? 1 : 0;\n//context.set(\"mode\", mode)\nconst modeStr = !msg.payload ? \"off\" : \"on\";\nmsg.payload = `turn,${pin},${modeStr}`\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 810,
+        "y": 220,
+        "wires": [
+            [
+                "34925d0205f71097"
+            ]
+        ]
+    },
+    {
+        "id": "63ea2bf8406ba289",
+        "type": "function",
+        "z": "becf57a49c517d2e",
+        "name": "Blinker",
+        "func": "let prevSpeed = flow.get(\"blink_speed\")||\"off\"\nlet pin = context.get(\"pin\")||5\nlet speed = msg.payload == prevSpeed ? \"off\" : msg.payload\nmsg.payload = `blink,${pin},${speed}`\nflow.set(\"blink_speed\", speed)\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 850,
+        "y": 340,
+        "wires": [
+            [
+                "34925d0205f71097"
+            ]
+        ]
+    },
+    {
+        "id": "55413a3beed15fab",
+        "type": "function",
+        "z": "becf57a49c517d2e",
+        "name": "Set Color",
+        "func": "let pin = context.get(\"pin\")||5\nif (typeof msg.payload === 'number'){\n    msg.payload = `pwm,${pin},${msg.payload}`\n} else {\n    msg.payload = `color,${msg.payload.r},${msg.payload.g},${msg.payload.b}`\n}\nreturn msg",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1020,
+        "y": 480,
+        "wires": [
+            [
+                "34925d0205f71097"
+            ]
+        ]
+    },
+    {
+        "id": "96191e16b845d950",
+        "type": "ui_text",
+        "z": "becf57a49c517d2e",
+        "group": "f9953abdd780cd1e",
+        "order": 1,
+        "width": 0,
+        "height": 0,
+        "name": "",
+        "label": "Switch",
+        "format": "{{msg.payload}}",
+        "layout": "row-spread",
+        "className": "",
+        "style": false,
+        "font": "",
+        "fontSize": 16,
+        "color": "#000000",
+        "x": 1210,
+        "y": 100,
+        "wires": []
+    },
+    {
+        "id": "8139fd2931e7ee22",
+        "type": "function",
+        "z": "becf57a49c517d2e",
+        "name": "Extract Mode",
+        "func": "msg.payload = msg.payload.trim()\nconst [mode, val] = msg.payload.split(\",\");\nmsg.mode = mode;\nmsg.payload = val;\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 850,
+        "y": 140,
+        "wires": [
+            [
+                "270ce5c0f2afa20d"
+            ]
+        ]
+    },
+    {
+        "id": "79dc9d67fed83818",
+        "type": "ui_text",
+        "z": "becf57a49c517d2e",
+        "group": "f9953abdd780cd1e",
+        "order": 2,
+        "width": 0,
+        "height": 0,
+        "name": "",
+        "label": "Analog value",
+        "format": "{{msg.payload}}",
+        "layout": "row-spread",
+        "className": "",
+        "style": false,
+        "font": "",
+        "fontSize": 16,
+        "color": "#000000",
+        "x": 1230,
+        "y": 160,
+        "wires": []
+    },
+    {
+        "id": "270ce5c0f2afa20d",
+        "type": "switch",
+        "z": "becf57a49c517d2e",
+        "name": "",
+        "property": "mode",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "db",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "an",
+                "vt": "str"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 2,
+        "x": 1050,
+        "y": 140,
+        "wires": [
+            [
+                "96191e16b845d950"
+            ],
+            [
+                "79dc9d67fed83818",
+                "ed4b8a9bab81ea3b"
+            ]
+        ]
+    },
+    {
+        "id": "dc73b213906d6ec8",
+        "type": "ui_button",
+        "z": "becf57a49c517d2e",
+        "name": "",
+        "group": "4cd9482aba53f898",
+        "order": 3,
+        "width": 3,
+        "height": 1,
+        "passthru": false,
+        "label": "{{label}}",
+        "tooltip": "",
+        "color": "",
+        "bgcolor": "{{color}}",
+        "className": "",
+        "icon": "",
+        "payload": "slow",
+        "payloadType": "str",
+        "topic": "topic",
+        "topicType": "msg",
+        "x": 670,
+        "y": 380,
+        "wires": [
+            [
+                "63ea2bf8406ba289"
+            ]
+        ]
+    },
+    {
+        "id": "75f107b42c60afda",
+        "type": "ui_switch",
+        "z": "becf57a49c517d2e",
+        "name": "",
+        "label": "LED",
+        "tooltip": "",
+        "group": "4cd9482aba53f898",
+        "order": 1,
+        "width": 0,
+        "height": 0,
+        "passthru": true,
+        "decouple": "false",
+        "topic": "topic",
+        "topicType": "msg",
+        "style": "",
+        "onvalue": "true",
+        "onvalueType": "bool",
+        "onicon": "",
+        "oncolor": "",
+        "offvalue": "false",
+        "offvalueType": "bool",
+        "officon": "",
+        "offcolor": "",
+        "animate": false,
+        "className": "",
+        "x": 650,
+        "y": 220,
+        "wires": [
+            [
+                "b15d13f775b5c470"
+            ]
+        ]
+    },
+    {
+        "id": "47888188d42a6365",
+        "type": "ui_colour_picker",
+        "z": "becf57a49c517d2e",
+        "name": "",
+        "label": "",
+        "group": "4cd9482aba53f898",
+        "format": "rgb",
+        "outformat": "object",
+        "showSwatch": true,
+        "showPicker": true,
+        "showValue": true,
+        "showHue": false,
+        "showAlpha": false,
+        "showLightness": true,
+        "square": "false",
+        "dynOutput": "true",
+        "order": 6,
+        "width": 5,
+        "height": 1,
+        "passthru": false,
+        "topic": "topic",
+        "topicType": "msg",
+        "className": "",
+        "x": 850,
+        "y": 480,
+        "wires": [
+            [
+                "55413a3beed15fab"
+            ]
+        ]
+    },
+    {
+        "id": "7cdb76409b607b27",
+        "type": "ui_switch",
+        "z": "becf57a49c517d2e",
+        "name": "",
+        "label": "Custom PWM",
+        "tooltip": "",
+        "group": "4cd9482aba53f898",
+        "order": 8,
+        "width": 0,
+        "height": 0,
+        "passthru": false,
+        "decouple": "false",
+        "topic": "topic",
+        "topicType": "msg",
+        "style": "",
+        "onvalue": "{\"type\":\"custom\",\"value\":true}",
+        "onvalueType": "json",
+        "onicon": "",
+        "oncolor": "",
+        "offvalue": "{\"type\":\"custom\",\"value\":false}",
+        "offvalueType": "json",
+        "officon": "",
+        "offcolor": "",
+        "animate": false,
+        "className": "",
+        "x": 400,
+        "y": 440,
+        "wires": [
+            [
+                "8ab6716f686f16bd"
+            ]
+        ]
+    },
+    {
+        "id": "8860ee069a9ab80a",
+        "type": "ui_slider",
+        "z": "becf57a49c517d2e",
+        "name": "",
+        "label": "PWM",
+        "tooltip": "",
+        "group": "4cd9482aba53f898",
+        "order": 4,
+        "width": 0,
+        "height": 0,
+        "passthru": false,
+        "outs": "all",
+        "topic": "topic",
+        "topicType": "msg",
+        "min": 0,
+        "max": "255",
+        "step": 1,
+        "className": "",
+        "x": 850,
+        "y": 540,
+        "wires": [
+            [
+                "55413a3beed15fab",
+                "efddf0deca427e35"
+            ]
+        ]
+    },
+    {
+        "id": "8ab6716f686f16bd",
+        "type": "function",
+        "z": "becf57a49c517d2e",
+        "name": "Change Switch Display",
+        "func": "let custom = !!context.get('custom_pwm')||false\nif (msg.payload.type == \"custom\") {\n    custom = msg.payload.value\n    context.set('custom_pwm', custom)\n}\nlet out1 = { enabled: custom }\nlet out2 = { enabled: !custom }\nif (msg.payload.type == \"real\" && msg.payload.value) {\n    out1 = { enabled: false }\n    out2 = { enabled: false }\n} \nreturn [out1, out2]",
+        "outputs": 2,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "// Code added here will be run once\n// whenever the node is started.\nlet out1 = { enabled: true }\nlet out2 = { enabled: false }\nreturn [out1, out2]",
+        "finalize": "",
+        "libs": [],
+        "x": 630,
+        "y": 480,
+        "wires": [
+            [
+                "47888188d42a6365"
+            ],
+            [
+                "8860ee069a9ab80a",
+                "efddf0deca427e35"
+            ]
+        ]
+    },
+    {
+        "id": "c4a2de2d24160e9d",
+        "type": "function",
+        "z": "becf57a49c517d2e",
+        "name": "Switch Mode",
+        "func": "const [mode] = msg.payload.split(\",\")\nconst out1 = { label: \"Blink Fast\", color: \"#0094ce\" }\nconst out2 = { label: \"Blink Slow\", color: \"#0094ce\"}\nif (mode == \"blink\") {\n    let [, , speed] = msg.payload.split(\",\");\n    speed = speed.trim()\n    if (speed == \"fast\") {\n        out1.label = \"Blink Off\"\n        out1.color = \"red\"\n    } else if (speed == \"slow\"){\n        out2.label = \"Blink Off\"\n        out2.color = \"red\"\n    }\n} else {\n    flow.set(\"blink_speed\", \"off\");\n}\nreturn [out1, out2];",
+        "outputs": 2,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "// Code added here will be run once\n// whenever the node is started.\nconst out1 = { label: \"Blink Fast\" }\nconst out2 = { label: \"Blink Slow\" }\nreturn [out1, out2];",
+        "finalize": "",
+        "libs": [],
+        "x": 510,
+        "y": 360,
+        "wires": [
+            [
+                "7380a118385e96c7"
+            ],
+            [
+                "dc73b213906d6ec8"
+            ]
+        ]
+    },
+    {
+        "id": "a14b5d59a981c2cd",
+        "type": "complete",
+        "z": "becf57a49c517d2e",
+        "name": "Switch Mode",
+        "scope": [
+            "b15d13f775b5c470",
+            "63ea2bf8406ba289",
+            "55413a3beed15fab"
+        ],
+        "uncaught": false,
+        "x": 510,
+        "y": 300,
+        "wires": [
+            [
+                "c4a2de2d24160e9d"
+            ]
+        ]
+    },
+    {
+        "id": "efddf0deca427e35",
+        "type": "ui_text",
+        "z": "becf57a49c517d2e",
+        "group": "4cd9482aba53f898",
+        "order": 5,
+        "width": 0,
+        "height": 0,
+        "name": "",
+        "label": "Current PWM: ",
+        "format": "{{msg.payload}}",
+        "layout": "row-spread",
+        "className": "",
+        "style": false,
+        "font": "",
+        "fontSize": 16,
+        "color": "#000000",
+        "x": 860,
+        "y": 600,
+        "wires": []
+    },
+    {
+        "id": "a64601da8967fb4e",
+        "type": "ui_switch",
+        "z": "becf57a49c517d2e",
+        "name": "",
+        "label": "Use Real Slider",
+        "tooltip": "",
+        "group": "4cd9482aba53f898",
+        "order": 9,
+        "width": 0,
+        "height": 0,
+        "passthru": true,
+        "decouple": "false",
+        "topic": "topic",
+        "topicType": "msg",
+        "style": "",
+        "onvalue": "{\"type\":\"real\",\"value\":true}",
+        "onvalueType": "json",
+        "onicon": "",
+        "oncolor": "",
+        "offvalue": "{\"type\":\"real\",\"value\":false}",
+        "offvalueType": "json",
+        "officon": "",
+        "offcolor": "",
+        "animate": false,
+        "className": "",
+        "x": 140,
+        "y": 420,
+        "wires": [
+            [
+                "0874460e089541a8"
+            ]
+        ]
+    },
+    {
+        "id": "0874460e089541a8",
+        "type": "function",
+        "z": "becf57a49c517d2e",
+        "name": "Real Slider",
+        "func": "let out1 = {enabled: !msg.payload.value}\nflow.set(\"real_slider\", msg.payload.value)\nreturn [out1, msg];",
+        "outputs": 2,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 170,
+        "y": 480,
+        "wires": [
+            [
+                "7cdb76409b607b27"
+            ],
+            [
+                "8ab6716f686f16bd"
+            ]
+        ]
+    },
+    {
+        "id": "ed4b8a9bab81ea3b",
+        "type": "link out",
+        "z": "becf57a49c517d2e",
+        "name": "link out 1",
+        "mode": "link",
+        "links": [
+            "e935fb447eb785e1"
+        ],
+        "x": 1175,
+        "y": 220,
+        "wires": []
+    },
+    {
+        "id": "e935fb447eb785e1",
+        "type": "link in",
+        "z": "becf57a49c517d2e",
+        "name": "link in 1",
+        "links": [
+            "ed4b8a9bab81ea3b"
+        ],
+        "x": 495,
+        "y": 600,
+        "wires": [
+            [
+                "ba35c3bdd691b70b"
+            ]
+        ]
+    },
+    {
+        "id": "ba35c3bdd691b70b",
+        "type": "function",
+        "z": "becf57a49c517d2e",
+        "name": "Show Analog Value",
+        "func": "if (flow.get(\"real_slider\")) {\n    msg.payload = parseInt(msg.payload / 16)\n    return msg\n}\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 630,
+        "y": 600,
+        "wires": [
+            [
+                "efddf0deca427e35",
+                "55413a3beed15fab"
+            ]
+        ]
+    },
+    {
+        "id": "a62b8581f024adfc",
+        "type": "complete",
+        "z": "becf57a49c517d2e",
+        "name": "Switch Mode",
+        "scope": [
+            "b15d13f775b5c470",
+            "63ea2bf8406ba289"
+        ],
+        "uncaught": false,
+        "x": 130,
+        "y": 300,
+        "wires": [
+            [
+                "806a29f0f7aa4edc"
+            ]
+        ]
+    },
+    {
+        "id": "806a29f0f7aa4edc",
+        "type": "function",
+        "z": "becf57a49c517d2e",
+        "name": "function 1",
+        "func": "if (flow.get(\"real_slider\")) {\n    msg.payload = {\"type\":\"real\",\"value\":false}\n    return msg;\n}",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 120,
+        "y": 360,
+        "wires": [
+            [
+                "a64601da8967fb4e"
+            ]
+        ]
+    },
+    {
+        "id": "04323c15f41867f6",
+        "type": "ui_button",
+        "z": "becf57a49c517d2e",
+        "name": "",
+        "group": "4cd9482aba53f898",
+        "order": 9,
+        "width": 0,
+        "height": 0,
+        "passthru": false,
+        "label": "RESET",
+        "tooltip": "",
+        "color": "",
+        "bgcolor": "",
+        "className": "",
+        "icon": "",
+        "payload": "",
+        "payloadType": "str",
+        "topic": "topic",
+        "topicType": "msg",
+        "x": 100,
+        "y": 160,
+        "wires": [
+            [
+                "069d901bba603e92"
+            ]
+        ]
+    },
+    {
+        "id": "069d901bba603e92",
+        "type": "function",
+        "z": "becf57a49c517d2e",
+        "name": "function 2",
+        "func": "let out1 = {payload: false}\nlet out2 = {payload: {r: 155, g: 155, b: 155}}\nlet out3 = { payload: { \"type\": \"custom\", \"value\": false } }\nreturn [out1, out2, out3];",
+        "outputs": 3,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 240,
+        "y": 160,
+        "wires": [
+            [
+                "75f107b42c60afda"
+            ],
+            [
+                "47888188d42a6365"
+            ],
+            [
+                "7cdb76409b607b27",
+                "8ab6716f686f16bd"
+            ]
+        ]
+    },
+    {
+        "id": "34aff49e57ef6e12",
+        "type": "ui_spacer",
+        "z": "becf57a49c517d2e",
+        "name": "spacer",
+        "group": "4cd9482aba53f898",
+        "order": 7,
+        "width": 1,
+        "height": 1
+    },
+    {
+        "id": "2b1d54231855dc33",
+        "type": "serial-port",
+        "serialport": "COM4",
+        "serialbaud": "115200",
+        "databits": "8",
+        "parity": "none",
+        "stopbits": "1",
+        "waitfor": "",
+        "dtr": "none",
+        "rts": "none",
+        "cts": "none",
+        "dsr": "none",
+        "newline": "\\n",
+        "bin": "false",
+        "out": "char",
+        "addchar": "\\n",
+        "responsetimeout": "10000"
     },
     {
         "id": "4cd9482aba53f898",
@@ -35,6 +695,17 @@
         "order": 1,
         "disp": true,
         "width": 6,
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "f9953abdd780cd1e",
+        "type": "ui_group",
+        "name": "Gaming status",
+        "tab": "486ef5e14d09b0e9",
+        "order": 2,
+        "disp": true,
+        "width": "6",
         "collapse": false,
         "className": ""
     },
